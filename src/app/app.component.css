@@ -1,0 +1,40 @@
+.split-layout {
+    width: 100%;
+    display: flex;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+.space {
+    flex-direction: column;
+    display: flex;
+    gap: 1rem;
+}
+
+.task-passed {
+    background-color: lightcoral; /* Apply a background color to highlight passed tasks */
+  }
+
+.mat-form-field{
+    width: 20%;
+}
+
+.task-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 5px; /* Adjust the spacing as needed */
+    justify-content: flex-end;
+    margin-left: auto; /* Pushes the buttons to the right within the flex container */
+  }
+  
+  .add-task{
+    width: 20%;
+  }
+
+  

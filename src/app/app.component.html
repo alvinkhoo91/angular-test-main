@@ -1,0 +1,68 @@
+<h1>Welcome to Todo App {{emoji}}</h1>
+
+<hr />
+
+<div class="split-layout">
+    <!-- Task List -->
+    <div class="grow space">
+
+        <!-- search task -->
+        <div class="searchTask">
+            <h2>Task List</h2>
+            <input type="text" class="add-task" placeholder="Search your Task" [(ngModel)]="searchTerm"/>
+        </div>
+
+        <!-- add task with date -->
+        <input type="text" class="add-task"placeholder="Add Task" [(ngModel)]="taskDesc" />
+
+         <!-- Material Datepicker, provided calendar to select date -->
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date" [(ngModel)]="taskDate" name="taskDate" #dateInput>
+            <mat-hint>MMMM DD, YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        <button class="add-task"(click)="addTask()">Add Task</button>
+        
+
+        <!-- List of filtered tasks -->
+        <div class="task-item" *ngFor="let task of filterTasks() | slice: currentPage * pageSize : (currentPage + 1) * pageSize" [ngClass]="{ 'task-passed': isTaskPassed(task.date) }">
+            <input type="checkbox" [value]="task.completed" />
+            <span>{{ task.description }}</span>
+            <span>{{task.date}}</span>
+
+            <div class="button-container">
+            <button class="right-button"(click)="Open_Editor(task.id)">Edit</button>
+            <button class="right-button"(click)="deleteToDo(task.id)">Delete</button>
+            </div>
+        </div>
+         <!-- Task Editor -->
+         <!-- conditionally to include in template, if editingtask is True, display -->
+        <div *ngIf="editingTask" class="grow">
+        <h2>Editor</h2>
+        <input #taskInput type="text" [(ngModel)]="editingTask.description" />
+
+        <!-- Material Datepicker, provided calendar to select date -->
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" (focus)="picker.open()" placeholder="Choose a date" [(ngModel)]="editingTask.date" name="taskDate">
+            <mat-hint>MMMM DD, YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button (click)="update_Task()">Update Task</button>
+        <button (click)="editingTask = undefined">Cancel</button>
+        </div>
+
+        <!-- paginator navigator -->
+        <!-- display and control list of items -->
+        <mat-paginator [length]="totalTasks"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="handlePageEvent($event)">
+        </mat-paginator>
+
+
+    </div>
+   
+</div>
